@@ -1,22 +1,22 @@
 Example 1:
 ```
 fn main() {
-    let mut s = String::from("hello");
-    let ref1 = &s;
-    let ref2 = &ref1;
-    let ref3 = &ref2;
-    s = String::from("goodbye");
+    let mut s = String::from("hello");  // `s` is an immutable string
+    let ref1 = &s;                      // Immutable borrow of `s`
+    let ref2 = &ref1;                   // Immutable reference to `&s`
+    let ref3 = &ref2;                   // Immutable reference to `&&s`
+    s = String::from("goodbye");        // ❌ tries to mutate `s`
     println!("{}", ref3.to_uppercase());
 }
 ```
-
 
 
 Example 2:
 ```
 fn drip_drop() -> &String {
     let s = String::from("hello world!");
-    return &s;
+    return &s;  // ❌ `s` gets dropped as soon as the function returns.
+    // So you're trying to return a reference to something that no longer exists
 }
 ```
 
@@ -28,7 +28,7 @@ fn main() {
     let s1 = String::from("hello");
     let mut v = Vec::new();
     v.push(s1);
-    let s2: String = v[0];
+    let s2: String = v[0];  // ❌ `v[0]` has type &String, but `s2` is of type String, which expects ownership
     println!("{}", s2);
 }
 ```
